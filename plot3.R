@@ -10,15 +10,20 @@ data.for.plots <- mydata[which(mydata$Date %in% seq(dmy("01022007"), dmy("020220
 
 ## Get day
 day <- day(data.for.plots$Date)
+data.plot2 <- cbind(data.for.plots, day)
 
 ## Get the day name for axis labels.
 day.name <- wday(data.for.plots$Date, label=T, abbr=T)
+data.plot2 <- cbind(data.plot2, day.name)
+
+data.plot2$Time <- hms(data.plot2$Time)
 
 ## Calculate the total seconds over the time frame:
 total.seconds <- ddays(data.plot2$day-1) + 
                  dhours(hour(data.plot2$Time)) + 
                  dminutes(minute(data.plot2$Time)) + 
                  dseconds(data.plot2$Time) 
+data.plot2 <- cbind(data.plot2, total.seconds)
 
 plot.df <- data.frame(ESM1 = data.for.plots$Sub_metering_1,
                       ESM2 = data.for.plots$Sub_metering_2,
